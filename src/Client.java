@@ -3,7 +3,6 @@ import lenz.htw.hamidagaa.Move;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Client {
@@ -49,7 +48,6 @@ public class Client {
             while (net.receiveMove() != null) {
                 Move move = net.receiveMove();
 
-                //TODO add if overlapping opponent diagonally then remove concerned pawn
                 pawns.stream()
                         .filter(p -> p.position == move.from)
                         .findFirst()
@@ -57,8 +55,33 @@ public class Client {
             }
 
             List<LegalMove<Move, Boolean>> moves = Helper.getLegalMoves(self);
+            LegalMove<Move, Boolean> bestMove = Helper.findBest(moves);
 
-            net.sendMove(Helper.findBest(moves).move);
+            if (bestMove.isDiagonal) {
+                pawns.stream()
+                        .filter(p -> {
+                            if (bestMove.move.from < bestMove.move.to) {
+                                return p.position == bestMove.move.from + (bestMove.move.to - bestMove.move.from) / 2;
+                            }
+                            else {
+                                return p.position == bestMove.move.to + (bestMove.move.to - bestMove.move.from) / 2;
+                            }
+                        })
+                        .findFirst()
+                        .ifPresent(pawns::remove);
+            }
+
+            net.sendMove(bestMove.move);
+        }
+    }
+
+    static class Pawn<K, V> {
+        protected K playerId;
+        protected V position;
+
+        public Pawn(K playerId, V position) {
+            this.playerId = playerId;
+            this.position = position;
         }
     }
 }
