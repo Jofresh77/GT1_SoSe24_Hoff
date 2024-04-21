@@ -44,9 +44,28 @@ public class Client {
     }
 
     private void run() {
-        while (true) {
-            while (net.receiveMove() != null) {
-                Move move = net.receiveMove();
+        System.out.println(id);
+
+        for (int i = 0; i < 100; i++){
+            Move receive;
+            while ((receive = net.receiveMove()) != null) {
+                Move move = receive;
+
+                if (move.to != move.from + 7
+                && move.to != move.from - 7
+                && move.to != move.from + 1
+                && move.to != move.from - 1) {
+                    pawns.stream()
+                            .filter(p -> {
+                                if (move.from < move.to) {
+                                    return p.position == move.from + (move.to - move.from) / 2;
+                                } else {
+                                    return p.position == move.to + Math.abs(move.to - move.from) / 2;
+                                }
+                            })
+                            .findFirst()
+                            .ifPresent(pawns::remove);
+                }
 
                 pawns.stream()
                         .filter(p -> p.position == move.from)
@@ -57,20 +76,7 @@ public class Client {
             List<LegalMove<Move, Boolean>> moves = Helper.getLegalMoves(self);
             LegalMove<Move, Boolean> bestMove = Helper.findBest(moves);
 
-            if (bestMove.isDiagonal) {
-                pawns.stream()
-                        .filter(p -> {
-                            if (bestMove.move.from < bestMove.move.to) {
-                                return p.position == bestMove.move.from + (bestMove.move.to - bestMove.move.from) / 2;
-                            }
-                            else {
-                                return p.position == bestMove.move.to + (bestMove.move.to - bestMove.move.from) / 2;
-                            }
-                        })
-                        .findFirst()
-                        .ifPresent(pawns::remove);
-            }
-
+            //System.out.println(bestMove.move);
             net.sendMove(bestMove.move);
         }
     }
@@ -82,6 +88,10 @@ public class Client {
         public Pawn(K playerId, V position) {
             this.playerId = playerId;
             this.position = position;
+        }
+
+        public String toString() {
+            return playerId + ": " + position;
         }
     }
 }

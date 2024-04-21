@@ -8,4 +8,8 @@ public class LegalMove<K, V> {
         this.move = move;
         this.isDiagonal = isDiagonal;
     }
+
+    public String toString() {
+        return move + " " + isDiagonal;
+    }
 }
