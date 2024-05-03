@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Helper {
 
+    //First round move retrieval require around 15 milliseconds to finish execution
     public static List<LegalMove<Move, Boolean>> getLegalMoves(Client client) {
         List<LegalMove<Move, Boolean>> legalMoves = new ArrayList<>();
 

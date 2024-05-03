@@ -2,6 +2,8 @@ import lenz.htw.hamidagaa.net.NetworkClient;
 import lenz.htw.hamidagaa.Move;
 
 import java.awt.image.BufferedImage;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class Client {
     private void run() {
         System.out.println(id);
 
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 1; i++){
             Move receive;
             while ((receive = net.receiveMove()) != null) {
                 Move move = receive;
@@ -73,7 +75,11 @@ public class Client {
                         .ifPresent(p -> p.position = move.to);
             }
 
+            Instant start = Instant.now();
             List<LegalMove<Move, Boolean>> moves = Helper.getLegalMoves(self);
+            Instant end = Instant.now();
+            System.out.println(Duration.between(start, end).toMillis());
+
             LegalMove<Move, Boolean> bestMove = Helper.findBest(moves);
 
             //System.out.println(bestMove.move);
