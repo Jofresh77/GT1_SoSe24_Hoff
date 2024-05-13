@@ -48,56 +48,37 @@ public class Client {
     private void run() {
         System.out.println(id);
 
-        for (int i = 0; i < 1; i++){
+        for (int i = 0; i < 10; i++){
             Move receive;
             while ((receive = net.receiveMove()) != null) {
-                Move move = receive;
-
-                if (move.to != move.from + 7
-                && move.to != move.from - 7
-                && move.to != move.from + 1
-                && move.to != move.from - 1) {
-                    pawns.stream()
-                            .filter(p -> {
-                                if (move.from < move.to) {
-                                    return p.position == move.from + (move.to - move.from) / 2;
-                                } else {
-                                    return p.position == move.to + Math.abs(move.to - move.from) / 2;
-                                }
-                            })
-                            .findFirst()
-                            .ifPresent(pawns::remove);
-                }
-
-                pawns.stream()
-                        .filter(p -> p.position == move.from)
-                        .findFirst()
-                        .ifPresent(p -> p.position = move.to);
+                Helper.updateBoard(self.pawns, receive);
             }
 
-            Instant start = Instant.now();
-            List<LegalMove<Move, Boolean>> moves = Helper.getLegalMoves(self);
-            Instant end = Instant.now();
-            System.out.println(Duration.between(start, end).toMillis());
+            List<LegalMove<Move, Boolean>> moves = Helper.getLegalMoves(self.id, self.pawns);
+            //moves.forEach(System.out::println);
 
-            LegalMove<Move, Boolean> bestMove = Helper.findBest(moves);
+            //TODO FIX GETLEGALMOVES
 
-            //System.out.println(bestMove.move);
+            LegalMove<Move, Boolean> bestMove = null;
+            int bestScore = Integer.MIN_VALUE;
+
+            for(LegalMove<Move, Boolean> move : moves){
+                int clientId = self.id;
+                int score = Helper.minimax(pawns, move, 0, self.id, clientId, -1000, 1000);
+                //System.out.println("Score: " + score + " | move: " + move);
+
+                if (bestMove == null || score > bestScore) {
+                    bestScore = score;
+                    bestMove = move;
+                }
+            }
+
+            if (bestMove == null) {
+                System.err.println("Null best");
+            }
+
+            //System.out.println(bestMove);
             net.sendMove(bestMove.move);
-        }
-    }
-
-    static class Pawn<K, V> {
-        protected K playerId;
-        protected V position;
-
-        public Pawn(K playerId, V position) {
-            this.playerId = playerId;
-            this.position = position;
-        }
-
-        public String toString() {
-            return playerId + ": " + position;
         }
     }
 }
