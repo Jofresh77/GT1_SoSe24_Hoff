@@ -1,0 +1,7 @@
+Expected network latency in milliseconds: 0
+Client ID: 0
+No valid move found.
+Exception in thread "main" java.lang.RuntimeException: You got kicked because your move was invalid!
+	at lenz.htw.hamidagaa.net.NetworkClient.receiveMove(Unknown Source)
+	at client.MinMaxClient.play(MinMaxClient.java:37)
+	at client.MinMaxClient.main(MinMaxClient.java:26)

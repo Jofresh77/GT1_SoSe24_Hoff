@@ -1,8 +1,8 @@
-import lenz.htw.hamidagaa.Move;
+package wrapper;
 
 public class LegalMove<K, V> {
-    protected K move;
-    protected V isDiagonal;
+    public K move;
+    public V isDiagonal;
 
     public LegalMove(K move, V isDiagonal) {
         this.move = move;

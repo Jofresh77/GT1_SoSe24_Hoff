@@ -1,0 +1,6 @@
+Expected network latency in milliseconds: 1
+Client ID: 2
+Exception in thread "main" java.lang.RuntimeException: This should not happen unless the game is already over! At least for you...
+	at lenz.htw.hamidagaa.net.NetworkClient.receiveMove(Unknown Source)
+	at client.MinMaxClient.play(MinMaxClient.java:37)
+	at client.MinMaxClient.main(MinMaxClient.java:26)
