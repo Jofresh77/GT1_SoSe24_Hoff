@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Visualizer {
-    final static String FILENAME = "resource/ucb1_memory01.ser";
+    final static String FILENAME = "resource/against-self/ucb1_memory_simulation8k.ser";
 
     public static void main(String[] args) {
         visualize(FILENAME);

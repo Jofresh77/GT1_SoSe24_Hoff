@@ -18,8 +18,6 @@ public class UCB1Client extends Client {
     final int C;
     final float ACCEPTANCE_THRESHOLD;
 
-    private final Random random = new Random();
-
     public UCB1Client(String name, Map<PlayerMove, MoveStatistics> db, int C, float ACCEPTANCE_THRESHOLD) {
         super(name);
 
@@ -52,7 +50,7 @@ public class UCB1Client extends Client {
 
     private synchronized Move findBestMove(int iteration, List<LegalMove<Move, Boolean>> moves) {
         double bestScore = Double.MIN_VALUE;
-        double dynamicC = Math.max(0.1, 1.0 / Math.sqrt(iteration));
+        double dynamicC = Math.max(0.1, 1.0 / Math.sqrt(iteration)); // the more the game evolves, the more we exploit instead of explore
         Move bestMove = null;
 
         for (LegalMove<Move, Boolean> legalMove : moves) {

@@ -16,8 +16,8 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Trainer {
-    static final String DATABASE_FILENAME = "resource/ucb1_memory01.ser";
-    static final float ACCEPTANCE_THRESHOLD = 0.3f;
+    static final String DATABASE_FILENAME = "resource/against-self/ucb1_memory_simulation8k.ser";
+    static final float ACCEPTANCE_THRESHOLD = 0.7f;
 
     public static void main(String[] args) {
         //Games are simulated here
