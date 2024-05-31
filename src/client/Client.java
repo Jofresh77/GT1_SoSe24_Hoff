@@ -37,6 +37,4 @@ public class Client {
         net = new NetworkClient(null, 22135, name, new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB));
         id = net.getMyPlayerNumber();
     }
-
-    public void play() {}
 }

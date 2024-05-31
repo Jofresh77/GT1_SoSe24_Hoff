@@ -26,7 +26,6 @@ public class MinMaxClient extends Client{
         self.play();
     }
 
-    @Override
     public void play() {
         //run minimax blank to precompute transposition table
         Helper.getLegalMoves(this.id, this.pawns)
