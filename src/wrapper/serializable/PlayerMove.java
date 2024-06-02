@@ -3,6 +3,7 @@ package wrapper.serializable;
 import java.io.Serial;
 import java.io.Serializable;
 
+// record key class for de-serialization (immutable)
 public record PlayerMove(int playerId, MovePersistent move) implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

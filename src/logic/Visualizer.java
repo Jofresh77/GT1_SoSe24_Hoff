@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Visualizer {
-    final static String FILENAME = "resource/against-self/ucb1_memory_simulation8k.ser";
+    final static String FILENAME = "resource/against-minmax/ucb1_memory_simulation_1k_merged_8k.ser";
 
     public static void main(String[] args) {
         visualize(FILENAME);

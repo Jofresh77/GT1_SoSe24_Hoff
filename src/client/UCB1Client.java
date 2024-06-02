@@ -57,10 +57,12 @@ public class UCB1Client extends Client {
             MoveStatistics moveStatistics = db.get(new PlayerMove(this.id, new MovePersistent(legalMove.move.from, legalMove.move.to)));
 
             if (moveStatistics != null) {
+/*
                 double score = ((double) moveStatistics.winAmount / moveStatistics.occurrenceAmount)
                         + (dynamicC * (Math.sqrt(Math.log(iteration) / moveStatistics.occurrenceAmount)));
-                /*double score = ((double) moveStatistics.winAmount / moveStatistics.occurrenceAmount)
-                        + (this.c * (Math.sqrt(Math.log(iteration) / moveStatistics.occurrenceAmount)));*/
+*/
+                double score = ((double) moveStatistics.winAmount / moveStatistics.occurrenceAmount)
+                        + (this.C * (Math.sqrt(Math.log(iteration) / moveStatistics.occurrenceAmount)));
 
                 if (bestScore < score) {
                     bestScore = score;
